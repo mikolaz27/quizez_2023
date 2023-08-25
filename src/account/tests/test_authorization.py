@@ -1,3 +1,4 @@
+import unittest
 from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
@@ -34,3 +35,15 @@ class TestAuthCustomer(TestCase):
         self.client.force_login(self.manager)
         response = self.client.get(reverse("admin:index"))
         self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    @unittest.skip("We dont have index page, will have it in sprint 35")
+    def test_user_access_index_page(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("index"))
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    @unittest.expectedFailure
+    def test_user_access_index_page_failure_example(self):
+        self.client.force_login(self.manager)
+        response = self.client.get(reverse("admin:index"))
+        self.assertEqual(response.status_code, HTTPStatus.IM_A_TEAPOT)
