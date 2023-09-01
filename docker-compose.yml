@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  backend:
+    #    image: quiz_image
+    build: ./
+    container_name: quiz_container
+    working_dir: /quiz
+    ports:
+      - 8008:8010
+    command:
+      - ./commands/start_server_dev.sh
+    volumes:
+      - ./src:/quiz/src
+      - ./commands:/quiz/commands
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+volumes:
+  pg_data: { }
