@@ -8,25 +8,22 @@ DEBUG = True
 
 SECRET_KEY = "django-secret-key"
 
-mongoengine.connect(
-    host='mongodb://admin:admin@mongodb:27017/mongodb_content?authSource=admin'
-)
+mongoengine.connect(host="mongodb://admin:admin@mongodb:27017/mongodb_content?authSource=admin")
 
 ALLOWED_HOSTS = []
 
-if os.environ.get('GITHUB_WORKFLOW'):
+if os.environ.get("GITHUB_WORKFLOW"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": 'postgres',
-            "USER": 'postgres',
-            "PASSWORD": 'postgres',
-            "HOST": '0.0.0.0',
-            "PORT": 5432
+            "NAME": "postgres",
+            "USER": "postgres",
+            "PASSWORD": "postgres",
+            "HOST": "0.0.0.0",
+            "PORT": 5432,
         }
     }
 else:
-
     DATABASES = {
         # "default_local": {
         #     "ENGINE": "django.db.backends.postgresql",
@@ -36,14 +33,13 @@ else:
         #     "HOST": "localhost",
         #     "PORT": 5432
         # },
-
         "default": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": os.environ.get("POSTGRES_DB"),
             "USER": os.environ.get("POSTGRES_USER"),
             "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
             "HOST": os.environ.get("POSTGRES_HOST"),
-            "PORT": os.environ.get("POSTGRES_PORT")
+            "PORT": os.environ.get("POSTGRES_PORT"),
         }
         # "default": {
         #     "ENGINE": "django.db.backends.sqlite3",
