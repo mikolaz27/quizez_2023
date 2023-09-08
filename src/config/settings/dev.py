@@ -1,10 +1,16 @@
 import os
 
+import mongoengine
+
 from config.settings.base import *  # NOQA
 
 DEBUG = True
 
 SECRET_KEY = "django-secret-key"
+
+mongoengine.connect(
+    host='mongodb://admin:admin@mongodb:27017/mongodb_content?authSource=admin'
+)
 
 ALLOWED_HOSTS = []
 

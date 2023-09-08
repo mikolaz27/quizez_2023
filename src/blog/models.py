@@ -1,3 +1,23 @@
-from django.db import models
+import datetime
 
-# Create your models here.
+from mongoengine import (DateTimeField, Document, EmbeddedDocument, EmbeddedDocumentField, ListField, StringField,
+                         IntField)
+
+
+class Blog(EmbeddedDocument):
+    name = StringField(max_length=255)
+    text = StringField()
+    author = StringField(max_length=255)
+    rating = IntField(default=100)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Entity(Document):
+    blog = ListField(EmbeddedDocumentField(Blog))
+    timestamp = DateTimeField(default=datetime.datetime.now())
+    headline = StringField(max_length=255)
+
+    def __str__(self):
+        return f"{self.headline}"
