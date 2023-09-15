@@ -7,7 +7,7 @@ services:
     container_name: quiz_container
     working_dir: /quiz
     ports:
-      - 8008:8010
+      - ${LOCAL_PORT}:${WSGI_PORT}
     command:
       - ./commands/start_server_${MODE}.sh
     volumes:
@@ -66,6 +66,7 @@ services:
       - mongodb
     depends_on:
       - mongodb
+
   nginx:
     image: nginx:1.19
     volumes:
@@ -79,6 +80,66 @@ services:
       - .env
     depends_on:
       - backend
+
+  redis:
+    image: redis
+    env_file:
+      - .env
+    restart: on-failure
+    depends_on:
+      - backend
+
+
+  celery:
+    build: ./
+    container_name: celery-container
+    command:
+      - ./commands/start_celery.sh
+    restart: on-failure
+    volumes:
+      - ./src:/quiz
+      - ./commands:/quiz/commands
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - backend
+
+  celerybeat:
+    build: ./
+    container_name: celerybeat-container
+    command:
+      - ./commands/start_celerybeat.sh
+    restart: on-failure
+    volumes:
+      - ./src:/quiz
+      - ./commands:/quiz/commands
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - backend
+
+  flower:
+    build: ./
+    container_name: flower-container
+    volumes:
+      - ./src:/quiz
+    env_file:
+      - .env
+    command: celery -A config flower --broker=redis://redis
+    ports:
+      - 5556:5555
+    depends_on:
+      - celery
+
+  redisadmin:
+    image: redislabs/redisinsight
+    container_name: redisadmin
+    restart: on-failure
+    ports:
+      - 8001:8001
+    env_file: .env
 
 volumes:
   static_content: { }
