@@ -25,3 +25,22 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# IaaS - infrastructure as a service  |
+# PaaS - platform as a service, RDS   |
+# SaaS - software as a service, 1
+
+
+# КВт/год - ?
+#
+# 1 1 1 1 -> 1$
+# 2 1 1 1 -> 2$
+# 2 1 1 2 -> 4$
+#
+# # 1m\Xo|m/'n{7Y8o5%WJL5m@lXg}\YO5]RC^&hHwO=Os|#d
+#
+# """Free tier: In your first year includes 750 hours of t2.micro
+# (or t3.micro in the Regions in which t2.micro is unavailable)
+# instance usage on free tier AMIs per month, 30 GiB of EBS storage,
+# 2 million IOs, 1 GB of snapshots, and 100 GB of bandwidth to the internet."""
